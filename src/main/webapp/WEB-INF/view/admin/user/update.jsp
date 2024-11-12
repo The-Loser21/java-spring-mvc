@@ -6,7 +6,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Create User</title>
+                <title>Update User</title>
                 <!--Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -19,16 +19,17 @@
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6 col-12 mx-auto">
-                            <h3>Create User</h3>
+                            <h3>Update User</h3>
                             <hr />
-                            <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
-                                <div class="mb-3">
-                                    <label class="from-label">Email:</label>
-                                    <form:input type="email" class="form-control" placeholder="" path="email" />
+                            <form:form method="post" action="/admin/user/update" modelAttribute="userUpdate">
+                                <div class="mb-3" style="display: none;">
+                                    <label class="from-label">Id:</label>
+                                    <form:input type="text" class="form-control" placeholder="" path="id" />
                                 </div>
                                 <div class="mb-3">
-                                    <label class="from-label">Password</label>
-                                    <form:input type="password" class="form-control" placeholder="" path="password" />
+                                    <label class="from-label">Email:</label>
+                                    <form:input type="email" class="form-control" placeholder="" path="email"
+                                        disabled="true" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="from-label">Phone number:</label>
