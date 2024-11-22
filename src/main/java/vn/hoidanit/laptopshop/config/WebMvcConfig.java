@@ -29,14 +29,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     // Dùng để truy cập vào mục css trong webapp
-    @Configuration
-    @EnableWebMvc
-    public class MvcConfig implements WebMvcConfigurer {
-        @Override
-        public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry
-                    .addResourceHandler("/css/**")
-                    .addResourceLocations("/resources/css");
-        }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/css/**")
+                .addResourceLocations("file:src/main/webapp/resources/css/");
+        registry
+                .addResourceHandler("/js/**")
+                .addResourceLocations("file:src/main/webapp/resources/js/");
     }
+
 }
