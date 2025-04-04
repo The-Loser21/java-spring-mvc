@@ -9,45 +9,70 @@
                 <title>Update User</title>
                 <!--Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link href="/css/styles.css" rel="stylesheet" />
 
                 <!-- Latest compiled JavaScript -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             </head>
 
-            <body>
-                <div class="container mt-5">
-                    <div class="row">
-                        <div class="col-md-6 col-12 mx-auto">
-                            <h3>Update User</h3>
-                            <hr />
-                            <form:form method="post" action="/admin/user/update" modelAttribute="userUpdate">
-                                <div class="mb-3" style="display: none;">
-                                    <label class="from-label">Id:</label>
-                                    <form:input type="text" class="form-control" placeholder="" path="id" />
+            <body class="sb-nav-fixed">
+                <jsp:include page="../layout/header.jsp" />
+                <div id="layoutSidenav">
+                    <jsp:include page="../layout/sidebar.jsp" />
+                    <div id="layoutSidenav_content">
+                        <main>
+                            <div class="container-fluid px-4">
+                                <h1 class="mt-4">Manager User</h1>
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">User</li>
+                                </ol>
+                                <!-- <div></div> -->
+                            </div>
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mx-auto">
+                                        <h3>Update User</h3>
+                                        <hr />
+                                        <form:form method="post" action="/admin/user/update"
+                                            modelAttribute="userUpdate">
+                                            <div class="mb-3" style="display: none;">
+                                                <label class="from-label">Id:</label>
+                                                <form:input type="text" class="form-control" placeholder="" path="id" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="from-label">Email:</label>
+                                                <form:input type="email" class="form-control" placeholder=""
+                                                    path="email" disabled="true" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="from-label">Phone number:</label>
+                                                <form:input type="text" class="form-control" placeholder=""
+                                                    path="phone" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="from-label">Full name</label>
+                                                <form:input type="text" class="form-control" placeholder=""
+                                                    path="fullName" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="from-label">Address</label>
+                                                <form:input type="text" class="form-control" placeholder=""
+                                                    path="address" />
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form:form>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="from-label">Email:</label>
-                                    <form:input type="email" class="form-control" placeholder="" path="email"
-                                        disabled="true" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="from-label">Phone number:</label>
-                                    <form:input type="text" class="form-control" placeholder="" path="phone" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="from-label">Full name</label>
-                                    <form:input type="text" class="form-control" placeholder="" path="fullName" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="from-label">Address</label>
-                                    <form:input type="text" class="form-control" placeholder="" path="address" />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form:form>
-                        </div>
+                            </div>
+                        </main>
+                        <jsp:include page="../layout/footer.jsp" />
                     </div>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                    crossorigin="anonymous"></script>
+                <script src="/js/scripts.js"></script>
             </body>
 
             </html>

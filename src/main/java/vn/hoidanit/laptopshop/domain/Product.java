@@ -8,6 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
@@ -15,11 +18,27 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @Size(min = 2, message = "Please fill in the information")
     private String name;
+
+    @NotNull
+    @Min(value = 10, message = "Value must be greater 10")
     private double price;
+
     private String image;
+
+    @NotNull
+    @Size(min = 2, message = "Please fill in the information")
     private String detailDesc;
+
+    @NotNull
+    @Size(min = 2, message = "Please fill in the information")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 1, message = "Value must be greater 1")
     private long quantity;
     private long sold;
     private String factory;
@@ -32,7 +51,7 @@ public class Product {
     }
 
     public Product(String name, double price, String image, String detailDesc, String shortDesc, long quantity,
-            long sold, String factory, String target) {
+            long sold, String factory, String target, List<OrderDetail> orderDetails) {
         this.name = name;
         this.price = price;
         this.image = image;
@@ -42,6 +61,15 @@ public class Product {
         this.sold = sold;
         this.factory = factory;
         this.target = target;
+        this.orderDetails = orderDetails;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -114,6 +142,14 @@ public class Product {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Override

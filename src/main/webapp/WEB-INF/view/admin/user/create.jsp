@@ -51,14 +51,24 @@
                                             enctype="multipart/form-data">
                                             <div class="row g-3">
                                                 <div class="col mb-3">
+                                                    <c:set var="emailHasBindError">
+                                                        <form:errors path="email" />
+                                                    </c:set>
                                                     <label class="from-label">Email:</label>
-                                                    <form:input type="email" class="form-control" placeholder=""
-                                                        path="email" />
+                                                    <form:input type="email"
+                                                        class="form-control ${not empty emailHasBindError ? 'is-invalid' : ''}"
+                                                        placeholder="" path="email" />
+                                                    <form:errors path="email" cssClass="invalid-feedback" />
                                                 </div>
                                                 <div class="col mb-3">
+                                                    <c:set var="passwordHasBindError">
+                                                        <form:errors path="password" />
+                                                    </c:set>
                                                     <label class="from-label">Password</label>
-                                                    <form:input type="password" class="form-control" placeholder=""
-                                                        path="password" />
+                                                    <form:input type="password"
+                                                        class="form-control ${not empty passwordHasBindError ? 'is-invalid': ''}"
+                                                        placeholder="" path="password" />
+                                                    <form:errors path="password" cssClass="invalid-feedback" />
                                                 </div>
                                             </div>
                                             <div class="row g-3">
@@ -68,9 +78,14 @@
                                                         path="phone" />
                                                 </div>
                                                 <div class="col mb-3">
+                                                    <c:set var="fullNameHasBindError">
+                                                        <form:errors path="fullName" />
+                                                    </c:set>
                                                     <label class="from-label">Full name</label>
-                                                    <form:input type="text" class="form-control" placeholder=""
-                                                        path="fullName" />
+                                                    <form:input type="text"
+                                                        class="form-control ${not empty fullNameHasBindError ? 'is-invalid' : ''}"
+                                                        placeholder="" path="fullName" />
+                                                    <form:errors path="fullName" cssClass="invalid-feedback" />
                                                 </div>
                                             </div>
 
