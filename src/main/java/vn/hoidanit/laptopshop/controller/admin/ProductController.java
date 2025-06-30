@@ -60,13 +60,13 @@ public class ProductController {
         }
 
         if (newProductBindResult.hasErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
         }
         // save data
         String productImages = this.uploadService.handleSaveUploadFile(file, "product");
         product.setImage(productImages);
         this.productService.saveProduct(product);
-        return "redirect:/admin/product"; //
+        return "redirect:/admin/product";
     }
 
     // View detail Product
@@ -96,7 +96,7 @@ public class ProductController {
         }
 
         if (newProductBindResult.hasErrors()) {
-            return "/admin/product/update";
+            return "admin/product/update";
         }
 
         Product curentUpdate = this.productService.getProductById(product.getId());
