@@ -4,16 +4,28 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpSession;
+import vn.hoidanit.laptopshop.domain.Cart;
+import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.repository.CartDetailReponsitory;
+import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.ProductReponsitory;
-import vn.hoidanit.laptopshop.repository.RoleRepository;
 
 @Service
 public class ProductService {
     private final ProductReponsitory productReponsitory;
+    private final CartRepository cartRepository;
+    private final CartDetailReponsitory cartDetailReponsitory;
+    private final UserService userService;
 
-    public ProductService(ProductReponsitory productReponsitory, RoleRepository roleRepository) {
+    public ProductService(ProductReponsitory productReponsitory, CartRepository cartRepository, UserService userService,
+            CartDetailReponsitory cartDetailReponsitory) {
         this.productReponsitory = productReponsitory;
+        this.cartDetailReponsitory = cartDetailReponsitory;
+        this.userService = userService;
+        this.cartRepository = cartRepository;
     }
 
     public List<Product> getAllProduct() {
@@ -38,5 +50,43 @@ public class ProductService {
 
     public Product saveProduct(Product product) {
         return this.productReponsitory.save(product);
+    }
+
+    public void handleAddProductToCart(String email, long productId, HttpSession session) {
+        User user = this.userService.getUserByEmail(email);
+        if (user != null) {
+            Cart cart = this.cartRepository.findByUser(user);
+            if (cart == null) {
+                Cart newCart = new Cart();
+                newCart.setUser(user);
+                newCart.setSum(0);
+
+                cart = this.cartRepository.save(newCart);
+            }
+
+            Product product = this.productReponsitory.findById(productId);
+            if (product != null) {
+                // check đã tồn tại sản phẩm trong Cart hay chưa?
+                CartDetail checkCartDetail = this.cartDetailReponsitory.findByCartAndProduct(cart, product);
+
+                if (checkCartDetail == null) {
+                    CartDetail cartDetail = new CartDetail();
+                    cartDetail.setCart(cart);
+                    cartDetail.setPrice(product.getPrice());
+                    cartDetail.setQuanity(1);
+                    cartDetail.setProduct(product);
+                    this.cartDetailReponsitory.save(cartDetail);
+                    // lưu sum sản phẩm vào cart
+                    int s = cart.getSum() + 1;
+                    cart.setSum(s);
+                    this.cartRepository.save(cart);
+                    session.setAttribute("sum", s);
+                } else {
+                    checkCartDetail.setQuanity(checkCartDetail.getQuanity() + 1);
+                    this.cartDetailReponsitory.save(checkCartDetail);
+                }
+
+            }
+        }
     }
 }

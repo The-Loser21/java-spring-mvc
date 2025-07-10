@@ -8,7 +8,7 @@
                         <div class="col-lg-3">
                             <a href="https://hoidanit.vn" target="_blank">
                                 <h1 class="text-primary mb-0">Laptopshop</h1>
-                                <p class="text-secondary mb-0">@hoidanit</p>
+                                <p class="text-secondary mb-0">VanHai</p>
                             </a>
                         </div>
                     </div>
@@ -36,8 +36,8 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-item">
                             <h4 class="text-light mb-3">Contact</h4>
-                            <p>Author:Hỏi Dân IT</p>
-                            <p>Website: <a href="https://hoidanit.vn" target="_blank"> hoidanit.vn</a></p>
+                            <p>Author:Lê Văn Hải</p>
+                            <p>Website: <a href="https://hoidanit.vn" target="_blank"> vanhai.vn</a></p>
                         </div>
                     </div>
                 </div>
