@@ -1,5 +1,6 @@
 package vn.hoidanit.laptopshop.controller.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -50,11 +51,11 @@ public class ItemProductController {
         long id = (long) session.getAttribute("id");
         user.setId(id);
         Cart cart = this.productService.fetchByUser(user);
-        List<CartDetail> cartDetails = cart.getCartDetails();
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
 
         double totalPrice = 0;
         for (CartDetail cartDetail : cartDetails) {
-            totalPrice = cartDetail.getPrice() * cartDetail.getQuanity();
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuanity();
         }
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
