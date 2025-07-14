@@ -1,6 +1,7 @@
 package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -92,5 +93,25 @@ public class ProductService {
 
     public Cart fetchByUser(User user) {
         return this.cartRepository.findByUser(user);
+    }
+
+    public void handleDeleteProductToCart(long id, HttpSession session) {
+        Optional<CartDetail> cartDetail = this.cartDetailReponsitory.findById(id);
+        if (cartDetail.isPresent()) {
+            CartDetail cartDetailDelete = cartDetail.get();
+
+            Cart cart = cartDetailDelete.getCart();
+
+            this.cartDetailReponsitory.delete(cartDetailDelete);
+            if (cart.getSum() > 1) {
+                int s = cart.getSum() - 1;
+                cart.setSum(s);
+                this.cartRepository.save(cart);
+                session.setAttribute("sum", s);
+            } else {
+                this.cartRepository.delete(cart);
+                session.setAttribute("sum", 0);
+            }
+        }
     }
 }
