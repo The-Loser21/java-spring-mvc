@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.hoidanit.laptopshop.domain.Cart;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ItemProductController {
@@ -60,6 +62,7 @@ public class ItemProductController {
         }
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("cart", cart);
         return "client/cart/detail";
     }
 
@@ -69,6 +72,42 @@ public class ItemProductController {
         long cartDetailId = id;
         this.productService.handleDeleteProductToCart(cartDetailId, session);
         return "redirect:/cart";
+    }
+
+    @GetMapping("/checkout")
+    public String getCheckOutPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User user = new User();
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+        Cart cart = this.productService.fetchByUser(user);
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+
+        double totalPrice = 0;
+        for (CartDetail cartDetail : cartDetails) {
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuanity();
+        }
+        model.addAttribute("cartDetails", cartDetails);
+        model.addAttribute("totalPrice", totalPrice);
+        return "client/cart/checkout";
+    }
+
+    @PostMapping("/confirm-checkout")
+    public String getCheckOutPage(@ModelAttribute("cart") Cart cart) {
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+        this.productService.handleUpdateCartBeforeCheckOut(cartDetails);
+        return "redirect:/checkout";
+    }
+
+    @PostMapping("/place-order")
+    public String handlePalceOrder(
+            HttpServletRequest request,
+            @RequestParam("receiveName") String receiveName,
+            @RequestParam("receiveAddress") String receiveAddress,
+            @RequestParam("receivePhone") String receivePhone) {
+        HttpSession session = request.getSession(false);
+
+        return "redirect:/";
     }
 
 }

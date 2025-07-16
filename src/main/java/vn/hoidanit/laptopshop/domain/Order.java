@@ -27,6 +27,46 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> order_detail;
 
+    private String receiveName;
+
+    private String receiveAddress;
+
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiverName(String receiveName) {
+        this.receiveName = receiveName;
+    }
+
+    public String getReceiveAddress() {
+        return receiveAddress;
+    }
+
+    public void setReceiveAddress(String receiveAddress) {
+        this.receiveAddress = receiveAddress;
+    }
+
+    public String getReceivePhone() {
+        return receivePhone;
+    }
+
+    public void setReceivePhone(String receivePhone) {
+        this.receivePhone = receivePhone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String receivePhone;
+
+    private String status;
+
     public Order() {
     }
 
