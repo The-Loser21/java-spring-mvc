@@ -139,7 +139,8 @@
                                 </table>
                             </div>
 
-                            <form:form action="/place-order" method="post" modelAttribute="cart">
+                            <form action="/place-order" method="post" modelAttribute="cart">
+                                <!-- <form action="/place-order" method="post"> -->
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                                 <div class="row mt-5 g-4">
@@ -197,7 +198,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form:form>
+                            </form>
 
                         </div>
                     </div>

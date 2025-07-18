@@ -8,10 +8,14 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
+import vn.hoidanit.laptopshop.domain.Order;
+import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.CartDetailReponsitory;
 import vn.hoidanit.laptopshop.repository.CartRepository;
+import vn.hoidanit.laptopshop.repository.OrderDetailReponsitory;
+import vn.hoidanit.laptopshop.repository.OrderReponsitory;
 import vn.hoidanit.laptopshop.repository.ProductReponsitory;
 
 @Service
@@ -20,13 +24,18 @@ public class ProductService {
     private final CartRepository cartRepository;
     private final CartDetailReponsitory cartDetailReponsitory;
     private final UserService userService;
+    private final OrderReponsitory orderReponsitory;
+    private final OrderDetailReponsitory orderDetailReponsitory;
 
     public ProductService(ProductReponsitory productReponsitory, CartRepository cartRepository, UserService userService,
-            CartDetailReponsitory cartDetailReponsitory) {
+            CartDetailReponsitory cartDetailReponsitory, OrderReponsitory orderReponsitory,
+            OrderDetailReponsitory orderDetailReponsitory) {
         this.productReponsitory = productReponsitory;
         this.cartDetailReponsitory = cartDetailReponsitory;
         this.userService = userService;
         this.cartRepository = cartRepository;
+        this.orderDetailReponsitory = orderDetailReponsitory;
+        this.orderReponsitory = orderReponsitory;
     }
 
     public List<Product> getAllProduct() {
@@ -122,6 +131,40 @@ public class ProductService {
                 CartDetail currenCartDetail = cdOptional.get();
                 currenCartDetail.setQuanity(cartDetail1.getQuanity());
                 this.cartDetailReponsitory.save(currenCartDetail);
+            }
+        }
+    }
+
+    public void handlePalceOrder(User user, HttpSession session, String receiveName, String receiveAddress,
+            String receivePhone) {
+        // set order
+        Order order = new Order();
+        order.setUser(user);
+        order.setReceiveName(receiveName);
+        order.setReceiveAddress(receiveAddress);
+        order.setReceivePhone(receivePhone);
+        order = this.orderReponsitory.save(order);
+
+        // set orderDetail
+        Cart cart = this.cartRepository.findByUser(user);
+        if (cart != null) {
+            List<CartDetail> cartDetails = this.cartDetailReponsitory.findByCart(cart);
+            if (cartDetails != null) {
+                for (CartDetail cartDetail : cartDetails) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(order);
+                    orderDetail.setProduct(cartDetail.getProduct());
+                    orderDetail.setPrice(cartDetail.getPrice());
+                    orderDetail.setQuantity(cartDetail.getQuanity());
+                    this.orderDetailReponsitory.save(orderDetail);
+                }
+
+                for (CartDetail cartDetail : cartDetails) {
+                    this.cartDetailReponsitory.deleteById(cartDetail.getId());
+                }
+
+                this.cartRepository.deleteById(cart.getId());
+                session.setAttribute("sum", 0);
             }
         }
     }

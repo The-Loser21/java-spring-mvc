@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import java.util.List;
 
 @Repository
 public interface CartDetailReponsitory extends JpaRepository<CartDetail, Long> {
@@ -15,4 +16,6 @@ public interface CartDetailReponsitory extends JpaRepository<CartDetail, Long> {
     CartDetail findByCartAndProduct(Cart cart, Product product);
 
     Optional<CartDetail> findById(long id);
+
+    List<CartDetail> findByCart(Cart cart);
 }

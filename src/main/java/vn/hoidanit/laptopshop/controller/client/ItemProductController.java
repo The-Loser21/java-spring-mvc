@@ -106,8 +106,19 @@ public class ItemProductController {
             @RequestParam("receiveAddress") String receiveAddress,
             @RequestParam("receivePhone") String receivePhone) {
         HttpSession session = request.getSession(false);
+        User user = new User();
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+        System.out.println("Session: " + session);
+        System.out.println("ID: " + session.getAttribute("id"));
+        System.out.println("Receive: " + receiveName + ", " + receivePhone + ", " + receiveAddress);
+        this.productService.handlePalceOrder(user, session, receiveName, receiveAddress, receivePhone);
+        return "redirect:/thank";
+    }
 
-        return "redirect:/";
+    @GetMapping("/thank")
+    public String getThank(Model model) {
+        return "client/cart/thanks";
     }
 
 }

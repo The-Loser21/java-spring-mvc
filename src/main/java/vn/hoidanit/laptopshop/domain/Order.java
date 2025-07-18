@@ -31,11 +31,47 @@ public class Order {
 
     private String receiveAddress;
 
+    private String receivePhone;
+
+    private String status;
+
+    public Order() {
+    }
+
+    public Order(long id, double totalPrice) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     public String getReceiveName() {
         return receiveName;
     }
 
     public void setReceiverName(String receiveName) {
+        this.receiveName = receiveName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderDetail> getOrder_detail() {
+        return order_detail;
+    }
+
+    public void setOrder_detail(List<OrderDetail> order_detail) {
+        this.order_detail = order_detail;
+    }
+
+    public void setReceiveName(String receiveName) {
         this.receiveName = receiveName;
     }
 
@@ -61,22 +97,6 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    private String receivePhone;
-
-    private String status;
-
-    public Order() {
-    }
-
-    public Order(long id, double totalPrice) {
-        this.id = id;
-        this.totalPrice = totalPrice;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setId(long id) {
