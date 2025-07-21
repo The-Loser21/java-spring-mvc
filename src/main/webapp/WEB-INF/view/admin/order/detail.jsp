@@ -28,7 +28,7 @@
                                     <ol class="breadcrumb mb-4">
                                         <li class="breadcrumb-item active">Dashboard</li>
                                     </ol>
-                                    <div>Order</div>
+                                    <div>Order Detail</div>
                                 </div>
                                 <div class="container mt-8">
                                     <div class="row">
@@ -38,32 +38,22 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">ID</th>
-                                                        <th scope="col">Total</th>
-                                                        <th scope="col">User</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Quantity</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <c:forEach var="order" items="${order}">
+                                                    <c:forEach var="orderDetail" items="${orderDetail}">
                                                         <tr>
-                                                            <td>${order.id}</td>
+                                                            <td>${orderDetail.id}</td>
+                                                            <td>${orderDetail.product.name}</td>
                                                             <td>
                                                                 <fmt:formatNumber type="number"
-                                                                    value="${order.totalPrice}" />
+                                                                    value="${orderDetail.price}" />
                                                                 đ
                                                             </td>
-                                                            </td>
-                                                            <td>${order.user.fullName}</td>
-                                                            <td>${order.status}</td>
-                                                            <td>
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning">Update</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger">Delete</a>
-                                                            </td>
+                                                            <td>${orderDetail.quantity}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>

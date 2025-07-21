@@ -1,12 +1,17 @@
 package vn.hoidanit.laptopshop.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import vn.hoidanit.laptopshop.domain.Order;
-import vn.hoidanit.laptopshop.domain.Product;
 
 @Repository
-public interface OrderReponsitory extends JpaRepository<Product, Long> {
+public interface OrderReponsitory extends JpaRepository<Order, Long> {
     Order save(Order order);
+
+    List<Order> findAll();
+
+    Order findById(long id);
 }

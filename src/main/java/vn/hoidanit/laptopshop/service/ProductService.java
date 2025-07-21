@@ -137,19 +137,26 @@ public class ProductService {
 
     public void handlePalceOrder(User user, HttpSession session, String receiveName, String receiveAddress,
             String receivePhone) {
-        // set order
-        Order order = new Order();
-        order.setUser(user);
-        order.setReceiveName(receiveName);
-        order.setReceiveAddress(receiveAddress);
-        order.setReceivePhone(receivePhone);
-        order = this.orderReponsitory.save(order);
 
         // set orderDetail
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = this.cartDetailReponsitory.findByCart(cart);
             if (cartDetails != null) {
+
+                double sum = 0;
+                for (CartDetail cartDetail : cartDetails) {
+                    sum += cartDetail.getPrice() * cartDetail.getQuanity();
+                }
+                Order order = new Order();
+                order.setUser(user);
+                order.setReceiveName(receiveName);
+                order.setReceiveAddress(receiveAddress);
+                order.setReceivePhone(receivePhone);
+                order.setStatus("PENDING");
+                order.setTotalPrice(sum);
+                order = this.orderReponsitory.save(order);
+
                 for (CartDetail cartDetail : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
