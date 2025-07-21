@@ -106,7 +106,7 @@
                                                         </div>
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
-                                                            value="${cartDetail.quanity}"
+                                                            value="${cartDetail.quantity}"
                                                             data-cart-detail-id="${cartDetail.id}"
                                                             data-cart-detail-price="${cartDetail.price}"
                                                             data-cart-detail-index="${status.index}">
@@ -121,7 +121,7 @@
                                                 <td>
                                                     <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
                                                         <fmt:formatNumber type="number"
-                                                            value="${cartDetail.quanity * cartDetail.price}" />đ
+                                                            value="${cartDetail.quantity * cartDetail.price}" />đ
                                                     </p>
                                                 </td>
                                                 <td>
@@ -185,8 +185,8 @@
                                                             <div class="form-group">
                                                                 <label>Quantity:</label>
                                                                 <form:input class="form-control" type="text"
-                                                                    value="${cartDetail.quanity}"
-                                                                    path="cartDetails[${status.index}].quanity" />
+                                                                    value="${cartDetail.quantity}"
+                                                                    path="cartDetails[${status.index}].quantity" />
                                                             </div>
                                                         </div>
                                                     </c:forEach>

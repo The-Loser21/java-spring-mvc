@@ -42,7 +42,7 @@ public class ItemProductController {
         HttpSession session = request.getSession(false);
         long productId = id;
         String email = (String) session.getAttribute("email");
-        this.productService.handleAddProductToCart(email, productId, session);
+        this.productService.handleAddProductToCart(email, productId, session, 1);
         return "redirect:/";
     }
 
@@ -57,7 +57,7 @@ public class ItemProductController {
 
         double totalPrice = 0;
         for (CartDetail cartDetail : cartDetails) {
-            totalPrice += cartDetail.getPrice() * cartDetail.getQuanity();
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
         }
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
@@ -84,7 +84,7 @@ public class ItemProductController {
 
         double totalPrice = 0;
         for (CartDetail cartDetail : cartDetails) {
-            totalPrice += cartDetail.getPrice() * cartDetail.getQuanity();
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
         }
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
@@ -118,6 +118,17 @@ public class ItemProductController {
     @GetMapping("/thank")
     public String getThank(Model model) {
         return "client/cart/thanks";
+    }
+
+    @PostMapping("/add-product-from-view-detail")
+    public String addProductFromDetail(
+            HttpServletRequest request,
+            @RequestParam("id") long id,
+            @RequestParam("quantity") long quantity) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        this.productService.handleAddProductToCart(email, id, session, quantity);
+        return "redirect:/product/" + id;
     }
 
 }

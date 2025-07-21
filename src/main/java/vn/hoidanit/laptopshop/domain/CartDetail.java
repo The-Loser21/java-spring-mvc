@@ -23,7 +23,7 @@ public class CartDetail {
     @JoinColumn(name = "product_id")
 
     private Product product;
-    private long quanity;
+    private long quantity;
     private double price;
 
     public long getId() {
@@ -50,12 +50,12 @@ public class CartDetail {
         this.product = product;
     }
 
-    public long getQuanity() {
-        return quanity;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setQuanity(long quanity) {
-        this.quanity = quanity;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {

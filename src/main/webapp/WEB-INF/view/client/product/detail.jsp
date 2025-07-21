@@ -86,23 +86,70 @@
                                         <p class="mb-4">
                                             ${product.shortDesc}
                                         </p>
-                                        <div class="input-group quantity mb-5" style="width: 100px;">
+                                        <!-- <div class="input-group quantity mb-5" style="width: 100px;">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-sm btn-minus rounded-circle bg-light border">
                                                     <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
                                             <input type="text" class="form-control form-control-sm text-center border-0"
-                                                value="1">
+                                                value="1" data-cart-detail-index="0">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <a href="#"
-                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        <form action="/add-product-from-view-detail" method="post"
+                                            modelAttribute="product">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <input class="form-control d-none" type="text" value="${product.id}"
+                                                name="id" />
+                                            <input class="form-control d-none" type="text" value="quantity"
+                                                id="cartDetails0.quantity" />
+                                            <button
+                                                class="mx-auto btn border border-secondary rounded-pill px-3 text-primary">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                Add to cart
+                                            </button>
+                                        </form> -->
+                                        <!-- Nhóm tăng/giảm và ô input hiển thị số lượng -->
+                                        <div class="input-group quantity mb-5" style="width: 100px;">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border"
+                                                    type="button">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+
+                                            <!-- Ô nhập hiển thị số lượng (người dùng thấy) -->
+                                            <input type="text" class="form-control form-control-sm text-center border-0"
+                                                value="1" data-cart-detail-index="0" />
+
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-plus rounded-circle bg-light border"
+                                                    type="button">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Form chỉ submit khi nhấn "Add to cart" -->
+                                        <form action="/add-product-from-view-detail" method="post">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <input type="hidden" name="id" value="${product.id}" />
+
+                                            <!-- Ô input ẩn sẽ được cập nhật tự động bằng JS -->
+                                            <input type="hidden" id="cartDetails0.quantity" name="quantity" value="1" />
+
+                                            <button
+                                                class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"
+                                                type="submit">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                Add to cart
+                                            </button>
+                                        </form>
+
                                     </div>
                                     <div class="col-lg-12">
                                         <nav>

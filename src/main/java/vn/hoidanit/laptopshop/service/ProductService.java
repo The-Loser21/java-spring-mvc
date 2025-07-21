@@ -62,7 +62,7 @@ public class ProductService {
         return this.productReponsitory.save(product);
     }
 
-    public void handleAddProductToCart(String email, long productId, HttpSession session) {
+    public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
             Cart cart = this.cartRepository.findByUser(user);
@@ -83,7 +83,7 @@ public class ProductService {
                     CartDetail cartDetail = new CartDetail();
                     cartDetail.setCart(cart);
                     cartDetail.setPrice(product.getPrice());
-                    cartDetail.setQuanity(1);
+                    cartDetail.setQuantity(quantity);
                     cartDetail.setProduct(product);
                     this.cartDetailReponsitory.save(cartDetail);
                     // lưu sum sản phẩm vào cart
@@ -92,7 +92,7 @@ public class ProductService {
                     this.cartRepository.save(cart);
                     session.setAttribute("sum", s);
                 } else {
-                    checkCartDetail.setQuanity(checkCartDetail.getQuanity() + 1);
+                    checkCartDetail.setQuantity(checkCartDetail.getQuantity() + quantity);
                     this.cartDetailReponsitory.save(checkCartDetail);
                 }
 
@@ -129,7 +129,7 @@ public class ProductService {
             Optional<CartDetail> cdOptional = this.cartDetailReponsitory.findById(cartDetail1.getId());
             if (cdOptional.isPresent()) {
                 CartDetail currenCartDetail = cdOptional.get();
-                currenCartDetail.setQuanity(cartDetail1.getQuanity());
+                currenCartDetail.setQuantity(cartDetail1.getQuantity());
                 this.cartDetailReponsitory.save(currenCartDetail);
             }
         }
@@ -146,7 +146,7 @@ public class ProductService {
 
                 double sum = 0;
                 for (CartDetail cartDetail : cartDetails) {
-                    sum += cartDetail.getPrice() * cartDetail.getQuanity();
+                    sum += cartDetail.getPrice() * cartDetail.getQuantity();
                 }
                 Order order = new Order();
                 order.setUser(user);
@@ -162,7 +162,7 @@ public class ProductService {
                     orderDetail.setOrder(order);
                     orderDetail.setProduct(cartDetail.getProduct());
                     orderDetail.setPrice(cartDetail.getPrice());
-                    orderDetail.setQuantity(cartDetail.getQuanity());
+                    orderDetail.setQuantity(cartDetail.getQuantity());
                     this.orderDetailReponsitory.save(orderDetail);
                 }
 

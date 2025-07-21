@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.client;
 
 import java.util.List;
 
+import org.eclipse.tags.shaded.java_cup.runtime.lr_parser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +11,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
+import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UserService;
 
@@ -27,11 +30,14 @@ public class HomePageController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final OrderService orderService;
     private final PasswordEncoder passwordEncoder;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder) {
+    public HomePageController(ProductService productService, UserService userService, OrderService orderService,
+            PasswordEncoder passwordEncoder) {
         this.productService = productService;
         this.userService = userService;
+        this.orderService = orderService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -78,6 +84,16 @@ public class HomePageController {
     public String getDenyPage(Model model) {
 
         return "client/auth/deny";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistory(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        User user = this.userService.getUserById(id);
+        List<Order> orders = this.orderService.getOrderByUser(user);
+        model.addAttribute("orders", orders);
+        return "client/cart/order-history";
     }
 
 }

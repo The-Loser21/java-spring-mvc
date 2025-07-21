@@ -96,7 +96,7 @@
                                                     <c:set var="quanityHasBindError">
                                                         <form:errors path="shortDesc" />
                                                     </c:set>
-                                                    <label class="from-label">Quanity:</label>
+                                                    <label class="from-label">Quantity:</label>
                                                     <form:input type="text"
                                                         class="form-control ${not empty quanityHasBindError ? 'is-invalid' : ''}"
                                                         placeholder="" path="quantity" />
