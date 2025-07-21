@@ -42,4 +42,8 @@ public class OrderService {
         }
         this.orderReponsitory.delete(order);
     }
+
+    public long countOrder() {
+        return this.orderReponsitory.count();
+    }
 }

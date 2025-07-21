@@ -175,4 +175,8 @@ public class ProductService {
             }
         }
     }
+
+    public long countProduct() {
+        return this.productReponsitory.count();
+    }
 }
