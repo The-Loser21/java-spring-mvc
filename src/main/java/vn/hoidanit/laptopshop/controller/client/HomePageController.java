@@ -3,6 +3,9 @@ package vn.hoidanit.laptopshop.controller.client;
 import java.util.List;
 
 import org.eclipse.tags.shaded.java_cup.runtime.lr_parser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
@@ -43,8 +47,10 @@ public class HomePageController {
 
     @GetMapping("/")
     public String getHomePage(Model model, HttpServletRequest request) {
-        List<Product> products = this.productService.getAllProduct();
-        model.addAttribute("product", products);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Product> products = this.productService.getAllProduct(pageable);
+        List<Product> listProducts = products.getContent();
+        model.addAttribute("product", listProducts);
         HttpSession session = request.getSession(false);
         return "client/homepage/show";
     }
@@ -94,6 +100,28 @@ public class HomePageController {
         List<Order> orders = this.orderService.getOrderByUser(user);
         model.addAttribute("orders", orders);
         return "client/cart/order-history";
+    }
+
+    @GetMapping("/products")
+    public String getProductPage(Model model,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        int safePage = Math.max(page, 1); // không cho nhỏ hơn 1
+        Pageable pageable = PageRequest.of(safePage - 1, 4);
+        Page<Product> pageProducts = productService.getAllProduct(pageable);
+
+        // Nếu page > totalPages thì quay lại trang cuối cùng
+        if (safePage > pageProducts.getTotalPages() && pageProducts.getTotalPages() > 0) {
+            pageable = PageRequest.of(pageProducts.getTotalPages() - 1, 4);
+            pageProducts = productService.getAllProduct(pageable);
+            safePage = pageProducts.getTotalPages();
+        }
+
+        model.addAttribute("products", pageProducts.getContent());
+        model.addAttribute("currentPage", safePage);
+        model.addAttribute("totalPages", pageProducts.getTotalPages());
+
+        return "client/product/show";
     }
 
 }
