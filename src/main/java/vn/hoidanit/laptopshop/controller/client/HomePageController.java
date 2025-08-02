@@ -102,26 +102,4 @@ public class HomePageController {
         return "client/cart/order-history";
     }
 
-    @GetMapping("/products")
-    public String getProductPage(Model model,
-            @RequestParam(value = "page", defaultValue = "1") int page) {
-
-        int safePage = Math.max(page, 1); // không cho nhỏ hơn 1
-        Pageable pageable = PageRequest.of(safePage - 1, 4);
-        Page<Product> pageProducts = productService.getAllProduct(pageable);
-
-        // Nếu page > totalPages thì quay lại trang cuối cùng
-        if (safePage > pageProducts.getTotalPages() && pageProducts.getTotalPages() > 0) {
-            pageable = PageRequest.of(pageProducts.getTotalPages() - 1, 4);
-            pageProducts = productService.getAllProduct(pageable);
-            safePage = pageProducts.getTotalPages();
-        }
-
-        model.addAttribute("products", pageProducts.getContent());
-        model.addAttribute("currentPage", safePage);
-        model.addAttribute("totalPages", pageProducts.getTotalPages());
-
-        return "client/product/show";
-    }
-
 }
