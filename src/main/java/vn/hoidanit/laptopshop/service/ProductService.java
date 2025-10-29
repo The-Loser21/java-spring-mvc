@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -13,12 +14,14 @@ import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.Product_;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.CartDetailReponsitory;
 import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.OrderDetailReponsitory;
 import vn.hoidanit.laptopshop.repository.OrderReponsitory;
 import vn.hoidanit.laptopshop.repository.ProductReponsitory;
+import vn.hoidanit.laptopshop.service.specification.ProdcutSpecs;
 
 @Service
 public class ProductService {
@@ -42,6 +45,10 @@ public class ProductService {
 
     public Page<Product> getAllProduct(Pageable page) {
         return this.productReponsitory.findAll(page);
+    }
+
+    public Page<Product> getAllProductWithSpec(String name, Pageable page) {
+        return this.productReponsitory.findAll(ProdcutSpecs.nameLike(name), page);
     }
 
     public List<Product> getAllProductByName(String name) {
